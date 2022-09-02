@@ -1,6 +1,10 @@
-![alt text](https://spring.io/images/spring-logo-9146a4d3298760c2e7e49595184e1975.svg)
+# Spring Framework
 
 ---
+
+OTUS #Spring 2022.08
+
+Projects:
 
 *Name: Sergey Rassadin\
 Email: oneso.null@gmail.com*
