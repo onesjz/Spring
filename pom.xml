@@ -21,18 +21,129 @@
 
     <modules>
 
+        <module>HW01-IntroductionSpring</module>
     </modules>
 
     <properties>
+        <!-- region General -->
+        <java.version>17</java.version>
+        <minimal.java.version>11</minimal.java.version>
+        <minimal.maven.version>3.1.0</minimal.maven.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncodung>UTF-8</project.reporting.outputEncodung>
+        <!-- endregion -->
+
+        <!-- region BOMs -->
+        <!-- В ожидании рабочей версии -->
+        <!-- endregion -->
+
+        <!-- region Libraries -->
+        <spring-context.version>5.3.22</spring-context.version>
+        <opencsv.version>5.6</opencsv.version>
+        <logback.version>1.4.0</logback.version>
+        <slf4j-api.version>2.0.0</slf4j-api.version>
+        <junit-jupiter-api.version>5.9.0</junit-jupiter-api.version>
+        <mockito-core.version>4.7.0</mockito-core.version>
+        <!-- endregion -->
+
+        <!-- region Plugins -->
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <maven-enforce-plugin.version>3.1.0</maven-enforce-plugin.version>
+        <maven-shade-plugin.version>3.3.0</maven-shade-plugin.version>
+        <maven-assembly-plugin.version>3.4.2</maven-assembly-plugin.version>
+        <!-- endregion -->
 
     </properties>
 
     <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring-context.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.opencsv</groupId>
+                <artifactId>opencsv</artifactId>
+                <version>${opencsv.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-core</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
 
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>${junit-jupiter-api.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito-core.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
 
     <build>
-
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>${maven-assembly-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-enforce-plugin</artifactId>
+                    <version>${maven-enforce-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>enforce-maven</id>
+                            <goals>
+                                <goal>enforce</goal>
+                            </goals>
+                            <configuration>
+                                <rules>
+                                    <bannedPlugins>
+                                        <level>WARN</level>
+                                    </bannedPlugins>
+                                    <dependencyConvergence/>
+                                    <requireMavenVersion>
+                                        <version>${minimal.maven.version}</version>
+                                    </requireMavenVersion>
+                                    <requireJavaVersion>
+                                        <version>${minimal.java.version}</version>
+                                    </requireJavaVersion>
+                                </rules>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
-    
+
 </project>

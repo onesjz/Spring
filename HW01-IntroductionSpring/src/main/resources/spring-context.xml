@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="guestDao" class="com.one.dao.GuestDaoImpl"/>
+
+    <bean id="quizDao" class="com.one.dao.QuizDaoImpl">
+        <constructor-arg name="csvPath" value="/csv/Quiz.csv"/>
+    </bean>
+
+    <bean id="scannerService" class="com.one.service.ScannerServiceImpl"/>
+
+    <bean id="guestService" class="com.one.service.GuestServiceImpl">
+        <constructor-arg name="guestDao" ref="guestDao"/>
+    </bean>
+
+    <bean id="quizService" class="com.one.service.QuizServiceImpl">
+        <constructor-arg name="guestService" ref="guestService"/>
+        <constructor-arg name="quizDao" ref="quizDao"/>
+        <constructor-arg name="scannerService" ref="scannerService"/>
+    </bean>
+
+</beans>
