@@ -38,7 +38,8 @@ class QuizServiceTest {
     void startQuiz() {
         Guest testGuest = new Guest("Test");
         Quiz testQuiz = new Quiz("1", Collections.singletonList("2"), 3);
-        when(scannerService.readInput()).thenReturn("1");
+        when(scannerService.readText()).thenReturn("1");
+        when(scannerService.readNumbers()).thenReturn(1);
         when(guestService.saveGuest(anyString())).thenReturn(testGuest);
         when(quizDao.getQuizList()).thenReturn(Collections.singletonList(testQuiz));
         when(guestService.getScoreboard()).thenReturn(Collections.singletonList(testGuest));
@@ -47,7 +48,8 @@ class QuizServiceTest {
 
         verify(guestService, times(1)).saveGuest(anyString());
         verify(quizDao, times(1)).getQuizList();
-        verify(scannerService, times(3)).readInput();
+        verify(scannerService, times(2)).readText();
+        verify(scannerService, times(1)).readNumbers();
         verify(scannerService, times(1)).close();
         verify(guestService, times(1)).updateScore(anyString(), anyInt());
         verify(guestService, times(1)).getScoreboard();

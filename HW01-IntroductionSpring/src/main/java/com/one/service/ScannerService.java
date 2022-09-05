@@ -1,6 +1,7 @@
 package com.one.service;
 
 public interface ScannerService {
-    String readInput();
+    String readText();
+    int readNumbers();
     void close();
 }

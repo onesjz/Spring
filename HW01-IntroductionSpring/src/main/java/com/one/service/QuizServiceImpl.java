@@ -26,7 +26,7 @@ public class QuizServiceImpl implements QuizService {
 
         System.out.println("Welcome to the simple quiz!");
         System.out.println("Please, to write your name: ");
-        Guest currentGuest = guestService.saveGuest(scannerService.readInput());
+        Guest currentGuest = guestService.saveGuest(scannerService.readText());
         System.out.println("Congratulation! You are checked in!");
 
         System.out.println("Let's start.");
@@ -39,7 +39,7 @@ public class QuizServiceImpl implements QuizService {
                 System.out.println(answer);
             }
 
-            if (checkResult(scannerService.readInput(), quiz.getCorrectAnswer())) {
+            if (scannerService.readNumbers() == quiz.getCorrectAnswer()) {
                 score++;
             }
         }
@@ -51,15 +51,11 @@ public class QuizServiceImpl implements QuizService {
         }
 
         System.out.println("Restart (y/n)?");
-        if(YES_INPUT.equals(scannerService.readInput())) {
+        if(YES_INPUT.equals(scannerService.readText().toLowerCase().trim())) {
             this.startQuiz();
         } else {
             scannerService.close();
             System.out.println("Goodbye!");
         }
-    }
-
-    private boolean checkResult(String input, long expected) {
-        return Long.parseLong(input) == expected;
     }
 }
