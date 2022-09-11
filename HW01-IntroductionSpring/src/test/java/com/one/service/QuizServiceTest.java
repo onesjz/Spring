@@ -30,7 +30,7 @@ class QuizServiceTest {
         scannerService = mock(ScannerService.class);
         quizDao = mock(QuizDao.class);
 
-        quizService = new QuizServiceImpl(scannerService, quizDao, guestService);
+        quizService = new QuizServiceImpl("csv", scannerService, quizDao, guestService);
     }
 
     @Test
@@ -41,13 +41,13 @@ class QuizServiceTest {
         when(scannerService.readText()).thenReturn("1");
         when(scannerService.readNumbers()).thenReturn(1);
         when(guestService.saveGuest(anyString())).thenReturn(testGuest);
-        when(quizDao.getQuizList()).thenReturn(Collections.singletonList(testQuiz));
+        when(quizDao.getQuizListByCSVFile(anyString())).thenReturn(Collections.singletonList(testQuiz));
         when(guestService.getScoreboard()).thenReturn(Collections.singletonList(testGuest));
 
         quizService.startQuiz();
 
         verify(guestService, times(1)).saveGuest(anyString());
-        verify(quizDao, times(1)).getQuizList();
+        verify(quizDao, times(1)).getQuizListByCSVFile(anyString());
         verify(scannerService, times(2)).readText();
         verify(scannerService, times(1)).readNumbers();
         verify(scannerService, times(1)).close();

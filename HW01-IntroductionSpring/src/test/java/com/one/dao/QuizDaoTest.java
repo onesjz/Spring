@@ -1,33 +1,37 @@
 package com.one.dao;
 
 import com.one.model.Quiz;
+import com.one.service.csv.CSVParserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @DisplayName("QuizDao should")
 class QuizDaoTest {
 
-    private static final String QUIZ_PATH = "/QuizTest.csv";
     private QuizDao quizDao;
+    private CSVParserService csvParserService;
 
     @BeforeEach
     void setUp() {
-        quizDao = new QuizDaoImpl(QUIZ_PATH);
+        csvParserService = mock(CSVParserService.class);
+        quizDao = new QuizDaoImpl(csvParserService);
     }
 
     @Test
     @DisplayName("Should get quiz list")
     void getQuizList() {
-        List<Quiz> quizList = quizDao.getQuizList();
+        when(csvParserService.parse("csv", Quiz.class)).thenReturn(Collections.singletonList(new Quiz()));
 
-        assertEquals(2, quizList.size());
-        assertEquals("q1", quizList.get(0).getQuestion());
-        assertEquals(2, quizList.get(0).getCorrectAnswer());
-        assertEquals(3, quizList.get(0).getAnswers().size());
+        List<Quiz> quizList = quizDao.getQuizListByCSVFile("csv");
+
+        assertEquals(1, quizList.size());
     }
 }

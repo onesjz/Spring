@@ -10,11 +10,13 @@ public class QuizServiceImpl implements QuizService {
 
     private static final String YES_INPUT = "y";
 
+    private final String csvFile;
     private final ScannerService scannerService;
     private final QuizDao quizDao;
     private final GuestService guestService;
 
-    public QuizServiceImpl(ScannerService scannerService, QuizDao quizDao, GuestService guestService) {
+    public QuizServiceImpl(String csvFile, ScannerService scannerService, QuizDao quizDao, GuestService guestService) {
+        this.csvFile = csvFile;
         this.scannerService = scannerService;
         this.quizDao = quizDao;
         this.guestService = guestService;
@@ -30,7 +32,7 @@ public class QuizServiceImpl implements QuizService {
         System.out.println("Congratulation! You are checked in!");
 
         System.out.println("Let's start.");
-        List<Quiz> quizList = quizDao.getQuizList();
+        List<Quiz> quizList = quizDao.getQuizListByCSVFile(csvFile);
 
         for (Quiz quiz : quizList) {
             System.out.println("Choose the correct answer: ");

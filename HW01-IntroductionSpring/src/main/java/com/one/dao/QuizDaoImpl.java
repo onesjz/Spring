@@ -1,44 +1,19 @@
 package com.one.dao;
 
+import com.one.service.csv.CSVParserService;
 import com.one.model.Quiz;
-import com.opencsv.CSVReader;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Collections;
 import java.util.List;
 
 public class QuizDaoImpl implements QuizDao {
+    private final CSVParserService csvParserService;
 
-    private static final Logger log = LoggerFactory.getLogger(QuizDaoImpl.class);
-
-    private final String csvPath;
-
-    public QuizDaoImpl(String csvPath) {
-        this.csvPath = csvPath;
+    public QuizDaoImpl(CSVParserService csvParserService) {
+        this.csvParserService = csvParserService;
     }
 
     @Override
-    public List<Quiz> getQuizList() {
-
-        try(CSVReader csvReader = new CSVReader(new InputStreamReader(getCsvFile()))) {
-            CsvToBean<Quiz> csvToBean = new CsvToBeanBuilder<Quiz>(csvReader)
-                .withSeparator(',')
-                .withType(Quiz.class)
-                .build();
-
-            return csvToBean.parse();
-        } catch (Exception e) {
-            log.error("The document {} had a parsing problem.", csvPath, e);
-        }
-        return Collections.emptyList();
-    }
-
-    private InputStream getCsvFile() {
-        return getClass().getResourceAsStream(csvPath);
+    public List<Quiz> getQuizListByCSVFile(String csvFile) {
+        return csvParserService.parse(csvFile, Quiz.class);
     }
 }

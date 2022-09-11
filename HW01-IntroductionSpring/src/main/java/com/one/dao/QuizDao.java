@@ -5,5 +5,5 @@ import com.one.model.Quiz;
 import java.util.List;
 
 public interface QuizDao {
-    List<Quiz> getQuizList();
+    List<Quiz> getQuizListByCSVFile(String csvFile);
 }
