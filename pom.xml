@@ -22,6 +22,7 @@
     <modules>
 
         <module>HW01-IntroductionSpring</module>
+        <module>HW02-Java-Annotation</module>
     </modules>
 
     <properties>
@@ -93,6 +94,12 @@
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
                 <version>${mockito-core.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring-context.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
