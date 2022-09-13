@@ -3,16 +3,19 @@ package com.one.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.PrintStream;
 import java.util.Scanner;
 
-public class ScannerServiceImpl implements ScannerService {
+public class IOServiceStream implements IOService {
 
-    private static final Logger log = LoggerFactory.getLogger(ScannerServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(IOServiceStream.class);
 
     private final Scanner scanner;
+    private final PrintStream printStream;
 
-    public ScannerServiceImpl(Scanner scanner) {
+    public IOServiceStream(Scanner scanner, PrintStream printStream) {
         this.scanner = scanner;
+        this.printStream = printStream;
     }
 
     @Override
@@ -30,6 +33,16 @@ public class ScannerServiceImpl implements ScannerService {
             log.debug("Invalid input.", e);
             return 0;
         }
+    }
+
+    @Override
+    public void printText(String text) {
+        printStream.println(text);
+    }
+
+    @Override
+    public void printFormattedText(String format, String text) {
+        printStream.format(format, text);
     }
 
     @Override

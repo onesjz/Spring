@@ -9,30 +9,30 @@ import java.util.Scanner;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Scanner Service should")
-class ScannerServiceTest {
+class IOServiceTest {
 
-    private ScannerService scannerService;
+    private IOService ioService;
 
     @AfterEach
     void teardown() {
-        scannerService.close();
+        ioService.close();
     }
 
     @Test
     @DisplayName("should read input text")
     void readText() {
         String text = "qwe";
-        scannerService = new ScannerServiceImpl(new Scanner(text));
+        ioService = new IOServiceStream(new Scanner(text), System.out);
 
-        assertEquals(text, scannerService.readText());
+        assertEquals(text, ioService.readText());
     }
 
     @Test
     @DisplayName("should read input number")
     void readNumbers() {
         String number = "1";
-        scannerService = new ScannerServiceImpl(new Scanner(number));
+        ioService = new IOServiceStream(new Scanner(number), System.out);
 
-        assertEquals(1, scannerService.readNumbers());
+        assertEquals(1, ioService.readNumbers());
     }
 }

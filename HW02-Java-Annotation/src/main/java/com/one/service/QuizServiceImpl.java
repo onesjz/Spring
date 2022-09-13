@@ -9,53 +9,52 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@SuppressWarnings("java:S106")
 public class QuizServiceImpl implements QuizService {
 
     private static final String YES_INPUT = "y";
 
     @Value("${csv.file.name}")
     private String csvFile;
-    private final ScannerService scannerService;
+    private final IOService ioService;
     private final QuizDao quizDao;
     private final GuestService guestService;
 
-    public QuizServiceImpl(ScannerService scannerService,
+    public QuizServiceImpl(IOService ioService,
                            QuizDao quizDao,
                            GuestService guestService) {
-        this.scannerService = scannerService;
+        this.ioService = ioService;
         this.quizDao = quizDao;
         this.guestService = guestService;
     }
 
     @Override
     public void startQuiz() {
-        System.out.println("Welcome to the simple quiz!");
+        ioService.printText("Welcome to the simple quiz!");
         Guest currentGuest = createUser();
-        System.out.println("Congratulation! You are checked in!");
+        ioService.printText("Congratulation! You are checked in!");
 
-        System.out.println("Let's start.");
+        ioService.printText("Let's start.");
         int score = quiz();
 
-        System.out.println("Updating result!");
+        ioService.printText("Updating result!");
         guestService.updateScore(currentGuest.getId(), score);
 
         showResults(guestService.getAllGuests());
 
-        System.out.println("Restart (y/n)?");
-        if (YES_INPUT.equals(scannerService.readText().toLowerCase().trim())) {
+        ioService.printText("Restart (y/n)?");
+        if (YES_INPUT.equals(ioService.readText().toLowerCase().trim())) {
             this.startQuiz();
         } else {
-            scannerService.close();
-            System.out.println("Goodbye!");
+            ioService.close();
+            ioService.printText("Goodbye!");
         }
     }
 
     private Guest createUser() {
-        System.out.println("Please, to write your name: ");
-        String firstName = scannerService.readText();
-        System.out.println("Then, to write your last name: ");
-        String lastName = scannerService.readText();
+        ioService.printText("Please, to write your name: ");
+        String firstName = ioService.readText();
+        ioService.printText("Then, to write your last name: ");
+        String lastName = ioService.readText();
         return guestService.saveGuest(firstName, lastName);
     }
 
@@ -65,13 +64,13 @@ public class QuizServiceImpl implements QuizService {
         List<Quiz> quizList = quizDao.getQuizListByCSVFile(csvFile);
 
         for (Quiz quiz : quizList) {
-            System.out.println("Choose the correct answer: ");
-            System.out.println(quiz.getQuestion());
+            ioService.printText("Choose the correct answer: ");
+            ioService.printText(quiz.getQuestion());
             for (String answer : quiz.getAnswers()) {
-                System.out.println(answer);
+                ioService.printText(answer);
             }
 
-            if (scannerService.readNumbers() == quiz.getCorrectAnswer()) {
+            if (ioService.readNumbers() == quiz.getCorrectAnswer()) {
                 score++;
             }
         }
@@ -79,12 +78,12 @@ public class QuizServiceImpl implements QuizService {
     }
 
     private void showResults(List<Guest> guests) {
-        System.out.println("-------------------");
+        ioService.printText("-------------------");
         String format = "| %1$-15s |\n";
 
         for (Guest guest : guests) {
-            System.out.format(format, guest.toString());
+            ioService.printFormattedText(format, guest.toString());
         }
-        System.out.println("-------------------");
+        ioService.printText("-------------------");
     }
 }

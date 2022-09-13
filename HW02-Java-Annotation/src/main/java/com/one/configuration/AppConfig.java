@@ -1,7 +1,7 @@
 package com.one.configuration;
 
-import com.one.service.ScannerService;
-import com.one.service.ScannerServiceImpl;
+import com.one.service.IOService;
+import com.one.service.IOServiceStream;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -13,7 +13,8 @@ import java.util.Scanner;
 public class AppConfig {
 
     @Bean
-    public ScannerService scannerService() {
-        return new ScannerServiceImpl(new Scanner(System.in));
+    @SuppressWarnings("java:S106")
+    public IOService scannerService() {
+        return new IOServiceStream(new Scanner(System.in), System.out);
     }
 }

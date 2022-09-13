@@ -21,17 +21,17 @@ import static org.mockito.Mockito.when;
 class QuizServiceTest {
 
     private GuestService guestService;
-    private ScannerService scannerService;
+    private IOService ioService;
     private QuizDao quizDao;
     private QuizService quizService;
 
     @BeforeEach
     void init() {
         guestService = mock(GuestService.class);
-        scannerService = mock(ScannerService.class);
+        ioService = mock(IOService.class);
         quizDao = mock(QuizDao.class);
 
-        quizService = new QuizServiceImpl(scannerService, quizDao, guestService);
+        quizService = new QuizServiceImpl(ioService, quizDao, guestService);
         ReflectionTestUtils.setField(quizService, "csvFile", "file");
     }
 
@@ -40,8 +40,8 @@ class QuizServiceTest {
     void startQuiz() {
         Guest testGuest = new Guest("FirstName", "LastName");
         Quiz testQuiz = new Quiz("1", Collections.singletonList("2"), 3);
-        when(scannerService.readText()).thenReturn("1");
-        when(scannerService.readNumbers()).thenReturn(1);
+        when(ioService.readText()).thenReturn("1");
+        when(ioService.readNumbers()).thenReturn(1);
         when(guestService.saveGuest(anyString(), anyString())).thenReturn(testGuest);
         when(quizDao.getQuizListByCSVFile(anyString())).thenReturn(Collections.singletonList(testQuiz));
         when(guestService.getAllGuests()).thenReturn(Collections.singletonList(testGuest));
@@ -50,9 +50,11 @@ class QuizServiceTest {
 
         verify(guestService, times(1)).saveGuest(anyString(), anyString());
         verify(quizDao, times(1)).getQuizListByCSVFile(anyString());
-        verify(scannerService, times(3)).readText();
-        verify(scannerService, times(1)).readNumbers();
-        verify(scannerService, times(1)).close();
+        verify(ioService, times(3)).readText();
+        verify(ioService, times(1)).readNumbers();
+        verify(ioService, times(13)).printText(anyString());
+        verify(ioService, times(1)).printFormattedText(anyString(), anyString());
+        verify(ioService, times(1)).close();
         verify(guestService, times(1)).updateScore(anyString(), anyInt());
         verify(guestService, times(1)).getAllGuests();
     }
