@@ -5,22 +5,25 @@ import com.one.service.csv.CSVParserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 @DisplayName("Quiz Dao should")
 class QuizDaoTest {
 
-    private QuizDao quizDao;
+    @Mock
     private CSVParserService csvParserService;
+    private QuizDao quizDao;
 
     @BeforeEach
     void init() {
-        csvParserService = mock(CSVParserService.class);
         quizDao = new QuizDaoImpl(csvParserService);
     }
 

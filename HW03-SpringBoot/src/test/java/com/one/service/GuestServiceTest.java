@@ -5,6 +5,9 @@ import com.one.model.Guest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 
@@ -12,19 +15,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 @DisplayName("Guest Service should")
 class GuestServiceTest {
 
-    private GuestService guestService;
+    @Mock
     private GuestDao guestDao;
+    private GuestService guestService;
     private Guest guest;
 
     @BeforeEach
     void init() {
-        guestDao = mock(GuestDao.class);
         guestService = new GuestServiceImpl(guestDao);
         guest = new Guest("FirstName", "LastName");
     }

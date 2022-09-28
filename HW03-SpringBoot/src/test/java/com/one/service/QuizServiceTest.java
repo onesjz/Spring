@@ -6,35 +6,35 @@ import com.one.model.Quiz;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyIterable;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 @DisplayName("Quiz Service should")
 class QuizServiceTest {
 
+    @Mock
     private GuestService guestService;
+    @Mock
     private IOService ioService;
+    @Mock
     private QuizDao quizDao;
-    private QuizService quizService;
+    @Mock
     private MessageService messageService;
+    private QuizService quizService;
 
     @BeforeEach
     void init() {
-        messageService = mock(MessageService.class);
-        guestService = mock(GuestService.class);
-        ioService = mock(IOService.class);
-        quizDao = mock(QuizDao.class);
-
         quizService = new QuizServiceImpl(messageService, ioService, quizDao, guestService, "path");
     }
 
@@ -48,8 +48,9 @@ class QuizServiceTest {
         when(guestService.saveGuest(anyString(), anyString())).thenReturn(testGuest);
         when(quizDao.getQuizListByCSVFile(anyString())).thenReturn(Collections.singletonList(testQuiz));
         when(guestService.getAllGuests()).thenReturn(Collections.singletonList(testGuest));
-        when(messageService.getMessage(anyString())).thenReturn("text");
-        when(messageService.getMessage(anyString(), anyString(), anyString(), anyString())).thenReturn("text");
+        doReturn("text").when(messageService).getMessage(anyString());
+        doReturn("text").when(messageService).getMessage(anyString(), anyString());
+        doReturn("text").when(messageService).getMessage(anyString(), anyString(), anyString(), anyString());
 
         quizService.startQuiz();
 
@@ -57,7 +58,7 @@ class QuizServiceTest {
         verify(quizDao, times(1)).getQuizListByCSVFile(anyString());
         verify(ioService, times(3)).readText();
         verify(ioService, times(1)).readNumbers();
-        verify(ioService, times(11)).printText(anyString());
+        verify(ioService, times(13)).printText(anyString());
         verify(ioService, times(1)).printFormattedText(anyString(), anyString());
         verify(ioService, times(1)).close();
         verify(guestService, times(1)).updateScore(anyString(), anyInt());
