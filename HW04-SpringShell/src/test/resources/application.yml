@@ -1,0 +1,10 @@
+app:
+    locale: en
+    csvProperty:
+        file: QuizTest.csv
+        directory: csv
+
+spring:
+    shell:
+        interactive:
+            enabled: false

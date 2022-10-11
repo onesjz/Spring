@@ -1,0 +1,10 @@
+app:
+    locale: en
+    csvProperty:
+        file: Quiz.csv
+        directory: csv
+
+spring:
+    messages:
+        basename: i18n/messages
+        encoding: UTF-8
