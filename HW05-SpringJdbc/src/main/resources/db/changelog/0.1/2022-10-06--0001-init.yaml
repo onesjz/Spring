@@ -1,0 +1,99 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2022-10-06--0001-author
+      author: Sergey
+      changes:
+        - createTable:
+            tableName: authors
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  incrementBy: 1
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_author
+              - column:
+                  name: author_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 2022-10-06--0001-book
+      author: Sergey
+      changes:
+        - createTable:
+            tableName: books
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  incrementBy: 1
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_book
+              - column:
+                  name: book_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: author_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_book_author
+                    references: authors(id)
+  - changeSet:
+      id: 2022-10-06--0001-genre
+      author: Sergey
+      changes:
+        - createTable:
+            tableName: genres
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  incrementBy: 1
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_genre
+              - column:
+                  name: genre_name
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 2022-10-06--0001-book_genre
+      author: Sergey
+      changes:
+        - createTable:
+            tableName: book_genre
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  incrementBy: 1
+                  constraints:
+                    nullable: false
+              - column:
+                  name: book_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_book_genre
+                    references: books(id)
+              - column:
+                  name: genre_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_genre_book
+                    references: genres(id)
