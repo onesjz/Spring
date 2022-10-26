@@ -31,6 +31,7 @@
         <module>HW02-Java-Annotation</module>
         <module>HW03-SpringBoot</module>
         <module>HW04-SpringShell</module>
+        <module>HW05-SpringJdbc</module>
     </modules>
 
     <properties>
@@ -52,6 +53,9 @@
         <opencsv.version>5.6</opencsv.version>
         <junit-jupiter-api.version>5.9.0</junit-jupiter-api.version>
         <mockito-core.version>4.7.0</mockito-core.version>
+        <h2.version>2.1.214</h2.version>
+        <postgresql.version>42.5.0</postgresql.version>
+        <liquibase-core.version>4.16.1</liquibase-core.version>
         <!-- endregion -->
 
         <!-- region Plugins -->
@@ -80,7 +84,24 @@
                 <artifactId>opencsv</artifactId>
                 <version>${opencsv.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-core</artifactId>
+                <version>${liquibase-core.version}</version>
+            </dependency>
 
+
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${h2.version}</version>
+                <scope>test</scope>
+            </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
