@@ -32,6 +32,7 @@
         <module>HW03-SpringBoot</module>
         <module>HW04-SpringShell</module>
         <module>HW05-SpringJdbc</module>
+        <module>HW06-Spring-ORM-JPA</module>
     </modules>
 
     <properties>
@@ -55,7 +56,7 @@
         <mockito-core.version>4.7.0</mockito-core.version>
         <h2.version>2.1.214</h2.version>
         <postgresql.version>42.5.0</postgresql.version>
-        <liquibase-core.version>4.16.1</liquibase-core.version>
+        <liquibase-core.version>4.17.1</liquibase-core.version>
         <!-- endregion -->
 
         <!-- region Plugins -->
